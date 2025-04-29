@@ -74,3 +74,18 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use std::env::set_current_dir;
+
+    use super::*;
+    
+    #[test]
+    fn test_for_file() {
+        let _ =set_current_dir("tests/fixtures/valid_project");
+        let result = generate_and_validate();
+        assert!(result.is_ok());
+    }
+}
+
