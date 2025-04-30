@@ -35,9 +35,8 @@ Gem::Specification.new do |spec|
   spec.extensions = ['ext/fast_code_owners/Cargo.toml']
 
   spec.add_dependency 'code_teams', '~> 1.0'
-  spec.add_dependency 'libclang'
   spec.add_dependency 'packs-specification'
-  spec.add_dependency 'sorbet-runtime', '>= 0.5.11249'
+  spec.add_dependency 'sorbet-runtime'
   spec.add_development_dependency 'debug'
   spec.add_development_dependency 'railties'
   spec.add_development_dependency 'rake-compiler'
