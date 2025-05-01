@@ -1,0 +1,79 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "codeowners",
+  "platforms": {
+    "macos-x86_64": {
+      "size": 3654984,
+      "hash": "blake3",
+      "digest": "fbc22ee43800b02663b25decad60a94daddb399fa5c81348c9af5e674d5d961e",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/perryqh/codeowners-rs-workflow/releases/download/v0.1.5/codeowners-mac.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/perryqh/codeowners-rs-workflow",
+          "tag": "v0.1.5",
+          "name": "codeowners-mac.tar.gz"
+        }
+      ]
+    },
+    "macos-aarch64": {
+      "size": 3654984,
+      "hash": "blake3",
+      "digest": "fbc22ee43800b02663b25decad60a94daddb399fa5c81348c9af5e674d5d961e",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/perryqh/codeowners-rs-workflow/releases/download/v0.1.5/codeowners-mac.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/perryqh/codeowners-rs-workflow",
+          "tag": "v0.1.5",
+          "name": "codeowners-mac.tar.gz"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 16395080,
+      "hash": "blake3",
+      "digest": "031c7bcf500cee68dc9e1385439abf4986a7b45fec6da6f23f9221c483484ad8",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/perryqh/codeowners-rs-workflow/releases/download/v0.1.5/x86_64-unknown-linux-gnu.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/perryqh/codeowners-rs-workflow",
+          "tag": "v0.1.5",
+          "name": "x86_64-unknown-linux-gnu.tar.gz"
+        }
+      ]
+    },
+    "linux-aarch64": {
+      "size": 15518470,
+      "hash": "blake3",
+      "digest": "938d332626d6a84ed9fd5c971aa2ed56a638735ec65e35a92ee454a41d3dc6a9",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/perryqh/codeowners-rs-workflow/releases/download/v0.1.5/aarch64-unknown-linux-gnu.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/perryqh/codeowners-rs-workflow",
+          "tag": "v0.1.5",
+          "name": "aarch64-unknown-linux-gnu.tar.gz"
+        }
+      ]
+    }
+  }
+}

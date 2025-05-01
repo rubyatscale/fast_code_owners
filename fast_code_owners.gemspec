@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir = 'exe'
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables = ['codeowners-rs']
   spec.require_paths = ['lib']
   spec.extensions = ['ext/fast_code_owners/Cargo.toml']
 
