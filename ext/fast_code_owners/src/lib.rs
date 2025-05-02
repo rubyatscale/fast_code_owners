@@ -34,12 +34,12 @@ fn for_file(file_path: String) -> Result<Option<Value>, Error> {
 fn generate_and_validate() -> Result<Value, Error> {
     let run_config = build_run_config();
     let run_result = runner::generate_and_validate(&run_config, vec![]);
-    if run_result.validation_errors.len() > 0 {
+    if !run_result.validation_errors.is_empty() {
         Err(Error::new(
             magnus::exception::runtime_error(),
             run_result.validation_errors.join("\n"),
         ))
-    } else if run_result.io_errors.len() > 0 {
+    } else if !run_result.io_errors.is_empty() {
         Err(Error::new(
             magnus::exception::runtime_error(),
             run_result.io_errors.join("\n"),

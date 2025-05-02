@@ -8,6 +8,10 @@ The [codeowners-rs](https://github.com/rubyatscale/codeowners-rs) CLI is a fast 
 
 **fast_code_owners** provides Ruby APIs that delegate to codeowners-rs. Much of this code was lifted from [code_ownership](https://github.com/rubyatscale/code_ownership).
 
+## Dependencies
+
+- [Rust](https://www.rust-lang.org/tools/install) must be installed and in the PATH
+
 ## Installation
 
 ```bash
@@ -19,7 +23,17 @@ gem install fast_code_owners
 ```ruby
 require 'fast_code_owners'
 
+# Find the owning team for the provided file path
 team = FastCodeOwners.for_file('path/to/file.rb')
+
+# Find the owning team for the provided class
+team = FastCodeOwners.for_class(MyClass)
+
+# Find the owning team for the provided packwerk/pks package.yml
+team = FastCodeOwners.for_package('packs/foo/package.yml')
+
+# Find the owning team for the provided error backtrace
+teams = FastCodeOwners.for_backtrace(error.backtrace)
 ```
 
 ## Contributing
