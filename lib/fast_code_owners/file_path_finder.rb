@@ -16,8 +16,6 @@ module FastCodeOwners
       if klass
         path = Object.const_source_location(klass.to_s)&.first
         (path && Pathname.new(path).relative_path_from(Pathname.pwd).to_s) || nil
-      else
-        nil
       end
     rescue NameError
       nil
@@ -34,23 +32,23 @@ module FastCodeOwners
       #
       #   ./app/controllers/some_controller.rb:43:in `block (3 levels) in create'
       #
-      backtrace_line = if RUBY_VERSION >= '3.4.0'
-                         %r{\A(#{Pathname.pwd}/|\./)?
-                             (?<file>.+)       # Matches 'app/controllers/some_controller.rb'
-                             :
-                             (?<line>\d+)      # Matches '43'
-                             :in\s
-                             '(?<function>.*)' # Matches "`block (3 levels) in create'"
-                           \z}x
-                       else
-                         %r{\A(#{Pathname.pwd}/|\./)?
-                             (?<file>.+)       # Matches 'app/controllers/some_controller.rb'
-                             :
-                             (?<line>\d+)      # Matches '43'
-                             :in\s
-                             `(?<function>.*)' # Matches "`block (3 levels) in create'"
-                           \z}x
-                       end
+      backtrace_line = if RUBY_VERSION >= "3.4.0"
+        %r{\A(#{Pathname.pwd}/|\./)?
+            (?<file>.+)       # Matches 'app/controllers/some_controller.rb'
+            :
+            (?<line>\d+)      # Matches '43'
+            :in\s
+            '(?<function>.*)' # Matches "`block (3 levels) in create'"
+          \z}x
+      else
+        %r{\A(#{Pathname.pwd}/|\./)?
+            (?<file>.+)       # Matches 'app/controllers/some_controller.rb'
+            :
+            (?<line>\d+)      # Matches '43'
+            :in\s
+            `(?<function>.*)' # Matches "`block (3 levels) in create'"
+          \z}x
+      end
 
       backtrace.lazy.filter_map do |line|
         match = line.match(backtrace_line)

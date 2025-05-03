@@ -32,7 +32,7 @@ module FastCodeOwners
     sig { returns(T::Hash[String, T.nilable(CodeTeams::Team)]) }
     def cache
       @cache ||= T.let(@cache,
-      T.nilable(T::Hash[String, T.nilable(CodeTeams::Team)]))
+        T.nilable(T::Hash[String, T.nilable(CodeTeams::Team)]))
       @cache ||= {}
     end
   end

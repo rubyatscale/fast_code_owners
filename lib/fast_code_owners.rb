@@ -2,14 +2,14 @@
 
 # typed: strict
 
-require 'code_teams'
-require 'packs-specification'
-require 'sorbet-runtime'
-require_relative 'fast_code_owners/file_path_team_cache'
-require_relative 'fast_code_owners/team_finder'
-require_relative 'fast_code_owners/version'
-require_relative 'fast_code_owners/fast_code_owners'
-require_relative 'fast_code_owners/file_path_finder'
+require "code_teams"
+require "packs-specification"
+require "sorbet-runtime"
+require_relative "fast_code_owners/file_path_team_cache"
+require_relative "fast_code_owners/team_finder"
+require_relative "fast_code_owners/version"
+require_relative "fast_code_owners/fast_code_owners"
+require_relative "fast_code_owners/file_path_finder"
 
 module FastCodeOwners
   module_function

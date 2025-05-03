@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'debug'
-require 'tmpdir'
-require 'fast_code_owners'
-require_relative 'support/application_fixtures'
+require "debug"
+require "tmpdir"
+require "fast_code_owners"
+require_relative "support/application_fixtures"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
+  config.example_status_persistence_file_path = ".rspec_status"
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
@@ -16,7 +16,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.include_context 'application fixtures'
+  config.include_context "application fixtures"
 
   config.before do |c|
     unless c.metadata[:do_not_bust_cache]
@@ -31,7 +31,7 @@ RSpec.configure do |config|
       example.run
     else
       begin
-        prefix = [File.basename($0), Process.pid].join('-') # rubocop:disable Style/SpecialGlobalVars
+        prefix = [File.basename($0), Process.pid].join("-") # rubocop:disable Style/SpecialGlobalVars
         tmpdir = Dir.mktmpdir(prefix)
         Dir.chdir(tmpdir) do
           example.run

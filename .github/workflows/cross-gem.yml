@@ -1,0 +1,78 @@
+---
+  name: Build gems
+  
+  on:
+    workflow_dispatch:
+    push:
+      branches: ["main", "cross-gem/*", "pkg/*"]
+  
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+  
+  jobs:
+    ci-data:
+      runs-on: ubuntu-latest
+      outputs:
+        result: ${{ steps.fetch.outputs.result }}
+      steps:
+        - id: fetch
+          uses: oxidize-rb/actions/fetch-ci-data@v1
+          with:
+            supported-ruby-platforms: |
+              # Excluding:
+              # `arm-linux`: Cranelift doesn't support 32-bit architectures
+              # `x64-mingw32`: `x64-mingw-ucrt` should be used for Ruby 3.1+ (https://github.com/rake-compiler/rake-compiler-dock?tab=readme-ov-file#windows)
+              # 3.0 is deprecated as stable ruby version according to:
+              #  https://github.com/oxidize-rb/actions/blob/main/fetch-ci-data/evaluate.rb#L54
+              exclude: [arm-linux, x64-mingw32]
+            stable-ruby-versions: |
+              exclude: [head]
+  
+    native:
+      name: Build native gems
+      needs: ci-data
+      runs-on: ubuntu-latest
+      strategy:
+        fail-fast: false
+        matrix:
+          ruby-platform: ${{ fromJSON(needs.ci-data.outputs.result).supported-ruby-platforms }}
+      steps:
+        - uses: actions/checkout@v4
+  
+        - uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: "3.4"
+  
+        - uses: oxidize-rb/actions/cross-gem@v1
+          id: cross-gem
+          with:
+            platform: ${{ matrix.ruby-platform }}
+            ruby-versions: ${{ join(fromJSON(needs.ci-data.outputs.result).stable-ruby-versions, ',') }}
+  
+        - uses: actions/upload-artifact@v4
+          with:
+            name: cross-gem-${{ matrix.ruby-platform }}
+            path: ${{ steps.cross-gem.outputs.gem-path }}
+            if-no-files-found: error
+  
+    source:
+      name: Build source gem
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: ["ubuntu-latest"]
+          ruby: ["3.4"]
+      steps:
+        - uses: actions/checkout@v4
+  
+        - uses: oxidize-rb/actions/setup-ruby-and-rust@v1
+          with:
+            ruby-version: ${{ matrix.ruby }}
+            bundler-cache: true
+            cargo-cache: false
+            cache-version: v2
+  
+        - name: Smoke test gem install
+          shell: bash
+          run: bundle exec rake

@@ -1,16 +1,16 @@
-RSpec.shared_context 'application fixtures' do
-  let(:codeowners_path) { Pathname.pwd.join('.github/CODEOWNERS') }
+RSpec.shared_context "application fixtures" do
+  let(:codeowners_path) { Pathname.pwd.join(".github/CODEOWNERS") }
 
   def write_configuration(owned_globs: nil, **kwargs)
-    owned_globs ||= ['{app,components,config,frontend,lib,packs,spec}/**/*.{rb,rake,js,jsx,ts,tsx,json,yml}']
+    owned_globs ||= ["{app,components,config,frontend,lib,packs,spec}/**/*.{rb,rake,js,jsx,ts,tsx,json,yml}"]
     config = {
-      'owned_globs' => owned_globs,
-      'unowned_globs' => ['config/code_ownership.yml']
+      "owned_globs" => owned_globs,
+      "unowned_globs" => ["config/code_ownership.yml"]
     }.merge(kwargs)
-    write_file('config/code_ownership.yml', config.to_yaml)
+    write_file("config/code_ownership.yml", config.to_yaml)
   end
 
-  def write_file(path, content = '')
+  def write_file(path, content = "")
     pathname = Pathname.pwd.join(path)
     FileUtils.mkdir_p(pathname.dirname)
     pathname.write(content)
@@ -20,25 +20,25 @@ RSpec.shared_context 'application fixtures' do
   let(:create_non_empty_application) do
     write_configuration
 
-    write_file('frontend/javascripts/packages/my_package/owned_file.jsx', <<~CONTENTS)
+    write_file("frontend/javascripts/packages/my_package/owned_file.jsx", <<~CONTENTS)
       // @team Bar
     CONTENTS
 
-    write_file('packs/my_pack/owned_file.rb', <<~CONTENTS)
+    write_file("packs/my_pack/owned_file.rb", <<~CONTENTS)
       # @team Bar
       class OwnedFile; end
     CONTENTS
 
-    write_file('directory/owner/.codeowner', <<~CONTENTS)
+    write_file("directory/owner/.codeowner", <<~CONTENTS)
       Bar
     CONTENTS
-    write_file('directory/owner/some_directory_file.ts')
-    write_file('directory/owner/(my_folder)/.codeowner', <<~CONTENTS)
+    write_file("directory/owner/some_directory_file.ts")
+    write_file("directory/owner/(my_folder)/.codeowner", <<~CONTENTS)
       Foo
     CONTENTS
-    write_file('directory/owner/(my_folder)/some_other_file.ts')
+    write_file("directory/owner/(my_folder)/some_other_file.ts")
 
-    write_file('frontend/javascripts/packages/my_other_package/package.json', <<~CONTENTS)
+    write_file("frontend/javascripts/packages/my_other_package/package.json", <<~CONTENTS)
       {
         "name": "@gusto/my_package",
         "metadata": {
@@ -46,15 +46,15 @@ RSpec.shared_context 'application fixtures' do
         }
       }
     CONTENTS
-    write_file('frontend/javascripts/packages/my_other_package/my_file.jsx')
+    write_file("frontend/javascripts/packages/my_other_package/my_file.jsx")
 
-    write_file('config/teams/foo.yml', <<~CONTENTS)
+    write_file("config/teams/foo.yml", <<~CONTENTS)
       name: Foo
       github:
         team: '@MyOrg/foo-team'
     CONTENTS
 
-    write_file('config/teams/bar.yml', <<~CONTENTS)
+    write_file("config/teams/bar.yml", <<~CONTENTS)
       name: Bar
       github:
         team: '@MyOrg/bar-team'
@@ -63,25 +63,25 @@ RSpec.shared_context 'application fixtures' do
         - frontend/javascripts/bar_stuff/**
     CONTENTS
 
-    write_file('app/services/bar_stuff/thing.rb')
-    write_file('frontend/javascripts/bar_stuff/thing.jsx')
+    write_file("app/services/bar_stuff/thing.rb")
+    write_file("frontend/javascripts/bar_stuff/thing.jsx")
 
-    write_file('packs/my_other_package/package.yml', <<~CONTENTS)
+    write_file("packs/my_other_package/package.yml", <<~CONTENTS)
       enforce_dependency: true
       enforce_privacy: true
       owner: Bar
     CONTENTS
 
-    write_file('package.yml', <<~CONTENTS)
+    write_file("package.yml", <<~CONTENTS)
       enforce_dependency: true
       enforce_privacy: true
     CONTENTS
 
-    write_file('packs/my_other_package/my_file.rb')
+    write_file("packs/my_other_package/my_file.rb")
   end
 
   let(:create_files_with_defined_classes) do
-    write_file('app/my_file.rb', <<~CONTENTS)
+    write_file("app/my_file.rb", <<~CONTENTS)
       # @team Foo
 
       require_relative 'my_error'
@@ -93,7 +93,7 @@ RSpec.shared_context 'application fixtures' do
       end
     CONTENTS
 
-    write_file('app/my_error.rb', <<~CONTENTS)
+    write_file("app/my_error.rb", <<~CONTENTS)
       # @team Bar
 
       class MyError
@@ -103,13 +103,13 @@ RSpec.shared_context 'application fixtures' do
       end
     CONTENTS
 
-    write_file('config/teams/foo.yml', <<~CONTENTS)
+    write_file("config/teams/foo.yml", <<~CONTENTS)
       name: Foo
       github:
         team: '@MyOrg/foo-team'
     CONTENTS
 
-    write_file('config/teams/bar.yml', <<~CONTENTS)
+    write_file("config/teams/bar.yml", <<~CONTENTS)
       name: Bar
       github:
         team: '@MyOrg/bar-team'
@@ -120,6 +120,6 @@ RSpec.shared_context 'application fixtures' do
     # we re-require the constant each time, since `RSpecTempfiles` changes where the file lives with each test
     Object.send(:remove_const, :MyFile) if defined? MyFile # :
     Object.send(:remove_const, :MyError) if defined? MyError # :
-    require Pathname.pwd.join('app/my_file')
+    require Pathname.pwd.join("app/my_file")
   end
 end
