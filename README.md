@@ -8,10 +8,6 @@ The [codeowners-rs](https://github.com/rubyatscale/codeowners-rs) CLI is a fast 
 
 **fast_code_owners** provides Ruby APIs that delegate to codeowners-rs. Much of this code was lifted from [code_ownership](https://github.com/rubyatscale/code_ownership).
 
-## Dependencies
-
-- [Rust](https://www.rust-lang.org/tools/install) must be installed and in the PATH
-
 ## Installation
 
 ```bash

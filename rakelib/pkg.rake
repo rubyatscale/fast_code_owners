@@ -98,7 +98,7 @@ namespace :pkg do
 
     puts <<~STATS
       \n\e[1m==== Source gem stats (#{File.basename(output_gempath)}) ====\e[0m
-      - Path: #{output_gempath.delete_prefix(Dir.pwd + '/')}
+      - Path: #{output_gempath.delete_prefix("#{Dir.pwd}/")}
       - Number of files: #{dirglob("#{unpacked_dir}/**/*").count}
       - Number of vendored deps: #{dirglob("#{unpacked_dir}/#{vendor_dir}/*").count}
       - Size (packed): #{filesize(output_gempath)} MB

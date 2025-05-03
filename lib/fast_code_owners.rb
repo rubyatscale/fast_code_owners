@@ -2,14 +2,20 @@
 
 # typed: strict
 
-require "code_teams"
-require "packs-specification"
-require "sorbet-runtime"
-require_relative "fast_code_owners/file_path_team_cache"
-require_relative "fast_code_owners/team_finder"
-require_relative "fast_code_owners/version"
-require_relative "fast_code_owners/fast_code_owners"
-require_relative "fast_code_owners/file_path_finder"
+require 'code_teams'
+require 'packs-specification'
+require 'sorbet-runtime'
+require_relative 'fast_code_owners/file_path_team_cache'
+require_relative 'fast_code_owners/team_finder'
+require_relative 'fast_code_owners/version'
+require_relative 'fast_code_owners/file_path_finder'
+
+begin
+  RUBY_VERSION =~ /(\d+\.\d+)/
+  require "fast_code_owners/#{Regexp.last_match(1)}/fast_code_owners"
+rescue LoadError
+  require 'fast_code_owners/fast_code_owners'
+end
 
 module FastCodeOwners
   module_function

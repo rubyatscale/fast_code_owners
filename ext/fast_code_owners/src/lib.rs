@@ -31,6 +31,7 @@ fn for_file(file_path: String) -> Result<Option<Value>, Error> {
     }
 }
 
+// Needed for tests
 fn generate_and_validate() -> Result<Value, Error> {
     let run_config = build_run_config();
     let run_result = runner::generate_and_validate(&run_config, vec![]);
