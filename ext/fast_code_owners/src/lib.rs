@@ -34,6 +34,7 @@ fn for_file(file_path: String) -> Result<Option<Value>, Error> {
 fn generate_and_validate() -> Result<Value, Error> {
     let run_config = build_run_config();
     let run_result = runner::generate_and_validate(&run_config, vec![]);
+    dbg!(&run_result);
     if !run_result.validation_errors.is_empty() {
         Err(Error::new(
             magnus::exception::runtime_error(),
@@ -74,3 +75,27 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use std::env::set_current_dir;
+
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn test_for_file_with_invalid_path() {
+        // panics because not called from a ruby thread
+        let _result = for_file("invalid/path".to_string());
+    }
+    
+    #[test]
+    fn test_for_file() {
+        let manifest_dir = env!("CARGO_MANIFEST_DIR");
+        let fixture_path = PathBuf::from(manifest_dir).join("tests/fixtures/valid_project");
+        let _ = set_current_dir(&fixture_path).unwrap();
+        let result = generate_and_validate();
+        assert!(result.is_ok());
+    }
+}
+
