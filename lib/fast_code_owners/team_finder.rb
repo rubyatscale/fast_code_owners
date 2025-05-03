@@ -13,7 +13,7 @@ module FastCodeOwners
 
     sig { params(file_path: String).returns(T.nilable(CodeTeams::Team)) }
     def for_file(file_path)
-      return nil if file_path.start_with?("./")
+      return nil if file_path.start_with?('./')
       return FilePathTeamCache.get(file_path) if FilePathTeamCache.cached?(file_path)
 
       result = T.let(RustCodeOwners.for_file(file_path), T.nilable(T::Hash[Symbol, String]))
@@ -38,7 +38,7 @@ module FastCodeOwners
 
     sig { params(package: Packs::Pack).returns(T.nilable(::CodeTeams::Team)) }
     def for_package(package)
-      owner_name = package.raw_hash["owner"] || package.metadata["owner"]
+      owner_name = package.raw_hash['owner'] || package.metadata['owner']
       return nil if owner_name.nil?
 
       find_team!(owner_name)
