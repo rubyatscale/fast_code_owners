@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module FastCodeOwners
-  VERSION = '0.0.5'
+  VERSION = '0.0.6.pre.1'
 end
