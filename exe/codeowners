@@ -1,0 +1,79 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "codeowners",
+  "platforms": {
+    "macos-x86_64": {
+      "size": 4331528,
+      "hash": "blake3",
+      "digest": "32bfc7664302bbb52a3130e1207e1b50aa717ebcd03baf3bf166415c98100dde",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/rubyatscale/codeowners-rs/releases/download/v0.2.4/codeowners-mac.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/rubyatscale/codeowners-rs",
+          "tag": "v0.2.4",
+          "name": "codeowners-mac.tar.gz"
+        }
+      ]
+    },
+    "macos-aarch64": {
+      "size": 4331528,
+      "hash": "blake3",
+      "digest": "32bfc7664302bbb52a3130e1207e1b50aa717ebcd03baf3bf166415c98100dde",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/rubyatscale/codeowners-rs/releases/download/v0.2.4/codeowners-mac.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/rubyatscale/codeowners-rs",
+          "tag": "v0.2.4",
+          "name": "codeowners-mac.tar.gz"
+        }
+      ]
+    },
+    "linux-x86_64": {
+      "size": 18038611,
+      "hash": "blake3",
+      "digest": "e04e66621efc4c2755b4ef912f5154e9dddafc4a1651bb565fc01465f059d9be",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/rubyatscale/codeowners-rs/releases/download/v0.2.4/x86_64-unknown-linux-gnu.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/rubyatscale/codeowners-rs",
+          "tag": "v0.2.4",
+          "name": "x86_64-unknown-linux-gnu.tar.gz"
+        }
+      ]
+    },
+    "linux-aarch64": {
+      "size": 17411182,
+      "hash": "blake3",
+      "digest": "f812a66e884e91a5b708b0c0e03149079ef07e2803f0b207a9ca6fad6fe06207",
+      "format": "tar.gz",
+      "path": "codeowners",
+      "providers": [
+        {
+          "url": "https://github.com/rubyatscale/codeowners-rs/releases/download/v0.2.4/aarch64-unknown-linux-gnu.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "https://github.com/rubyatscale/codeowners-rs",
+          "tag": "v0.2.4",
+          "name": "aarch64-unknown-linux-gnu.tar.gz"
+        }
+      ]
+    }
+  }
+}

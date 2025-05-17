@@ -21,12 +21,12 @@ Gem::Specification.new do |spec|
   spec.metadata['changelog_uri'] = 'https://github.com/rubyatscale/fast_code_owners/releases'
   spec.metadata['cargo_crate_name'] = 'fast_code_owners'
 
-  spec.files = Dir['{lib,ext}/**/*', 'LICENSE', 'README.md', 'Cargo.*']
+  spec.files = Dir['{lib,ext}/**/*', 'exe/codeowners', 'LICENSE', 'README.md', 'Cargo.*']
   spec.files.reject! { |f| File.directory?(f) }
   spec.files.reject! { |f| f =~ /\.(dll|so|dylib|lib|bundle)\Z/ }
 
   spec.bindir = 'exe'
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables << 'codeowners'
   spec.require_paths = ['lib']
   spec.extensions = ['ext/fast_code_owners/Cargo.toml']
 
