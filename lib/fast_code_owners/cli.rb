@@ -63,11 +63,17 @@ module FastCodeOwners
                 nil
               end
 
-      FastCodeOwners.validate!(
+      result = FastCodeOwners.validate!(
         files: files,
         autocorrect: !options[:skip_autocorrect],
         stage_changes: !options[:skip_stage]
       )
+      puts "cli result: #{result}"
+      if result.nil?
+        puts 'No errors found'
+      else
+        puts result
+      end
     end
 
     # For now, this just returns team ownership
