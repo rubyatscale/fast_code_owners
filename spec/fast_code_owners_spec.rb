@@ -18,7 +18,6 @@ RSpec.describe FastCodeOwners do
       context 'with non-empty application' do
         before do
           create_non_empty_application
-          RustCodeOwners.generate_and_validate
         end
 
         context 'when no ownership is found' do
@@ -71,7 +70,6 @@ RSpec.describe FastCodeOwners do
     context 'when the klass path is found' do
       before do
         create_non_empty_application
-        RustCodeOwners.generate_and_validate
       end
 
       it 'calls for_file with the correct file path' do
@@ -135,7 +133,6 @@ RSpec.describe FastCodeOwners do
     before do
       create_files_with_defined_classes
       write_configuration
-      RustCodeOwners.generate_and_validate
     end
 
     context 'excluded_teams is not passed in as an input parameter' do
@@ -160,7 +157,6 @@ RSpec.describe FastCodeOwners do
     before do
       write_configuration
       create_files_with_defined_classes
-      RustCodeOwners.generate_and_validate
     end
 
     context 'excluded_teams is not passed in as an input parameter' do

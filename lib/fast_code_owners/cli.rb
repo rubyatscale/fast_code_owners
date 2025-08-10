@@ -3,6 +3,7 @@
 require 'optparse'
 require 'pathname'
 require 'fileutils'
+require 'json'
 
 module FastCodeOwners
   class Cli
@@ -16,7 +17,7 @@ module FastCodeOwners
         for_team(argv)
       elsif [nil, 'help'].include?(command)
         puts <<~USAGE
-          Usage: bin/codeownership <subcommand>
+          Usage: bin/codeowners <subcommand>
 
           Subcommands:
             validate - run all validations
@@ -25,7 +26,7 @@ module FastCodeOwners
             help  - display help information about code_ownership
         USAGE
       else
-        puts "'#{command}' is not a code_ownership command. See `bin/codeownership help`."
+        puts "'#{command}' is not a code_ownership command. See `bin/codeowners help`."
       end
     end
 
@@ -33,7 +34,7 @@ module FastCodeOwners
       options = {}
 
       parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: bin/codeownership validate [options]'
+        opts.banner = 'Usage: bin/codeowners validate [options]'
 
         opts.on('--skip-autocorrect', 'Skip automatically correcting any errors, such as the .github/CODEOWNERS file') do
           options[:skip_autocorrect] = true
@@ -63,17 +64,11 @@ module FastCodeOwners
                 nil
               end
 
-      result = FastCodeOwners.validate!(
+      FastCodeOwners.validate!(
         files: files,
         autocorrect: !options[:skip_autocorrect],
         stage_changes: !options[:skip_stage]
       )
-      puts "cli result: #{result}"
-      if result.nil?
-        puts 'No errors found'
-      else
-        puts result
-      end
     end
 
     # For now, this just returns team ownership
@@ -87,7 +82,7 @@ module FastCodeOwners
       files = argv.reject { |arg| arg.start_with?('--') }
 
       parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: bin/codeownership for_file [options]'
+        opts.banner = 'Usage: bin/codeowners for_file [options]'
 
         opts.on('--json', 'Output as JSON') do
           options[:json] = true
@@ -102,7 +97,7 @@ module FastCodeOwners
       parser.parse!(args)
 
       if files.count != 1
-        raise 'Please pass in one file. Use `bin/codeownership for_file --help` for more info'
+        raise 'Please pass in one file. Use `bin/codeowners for_file --help` for more info'
       end
 
       team = FastCodeOwners.for_file(files.first)
@@ -127,7 +122,7 @@ module FastCodeOwners
 
     def self.for_team(argv)
       parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: bin/codeownership for_team \'Team Name\''
+        opts.banner = 'Usage: bin/codeowners for_team \'Team Name\''
 
         opts.on('--help', 'Shows this prompt') do
           puts opts
@@ -139,7 +134,7 @@ module FastCodeOwners
       parser.parse!(args)
 
       if teams.count != 1
-        raise 'Please pass in one team. Use `bin/codeownership for_team --help` for more info'
+        raise 'Please pass in one team. Use `bin/codeowners for_team --help` for more info'
       end
 
       puts FastCodeOwners.for_team(teams.first)
