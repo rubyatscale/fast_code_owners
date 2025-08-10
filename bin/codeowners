@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# typed: strict
+
+require 'fast_code_owners'
+FastCodeOwners::Cli.run!(ARGV)
