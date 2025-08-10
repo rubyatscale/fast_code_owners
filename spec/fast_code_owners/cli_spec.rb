@@ -63,6 +63,27 @@ RSpec.describe FastCodeOwners::Cli do
     end
   end
 
+  context 'for_team' do
+    before do
+      write_configuration(owned_globs: nil)
+      write_file('app/services/my_file.rb')
+      write_file('config/teams/my_team.yml', <<~YML)
+        name: My Team
+        github:
+          team: '@my-team'
+        owned_globs:
+        - app/**/*.rb
+        - frontend/**/*.jsx
+      YML
+    end
+    let(:argv) { ['for_team', 'My Team'] }
+
+    it 'outputs the team info in human readable format' do
+      expect(FastCodeOwners::Cli).to receive(:puts).with('# Code Ownership Report for `My Team` Team')
+      subject
+    end
+  end
+
   describe 'for_file' do
     before do
       write_configuration
