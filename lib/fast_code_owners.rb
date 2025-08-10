@@ -9,6 +9,7 @@ require_relative 'fast_code_owners/file_path_team_cache'
 require_relative 'fast_code_owners/team_finder'
 require_relative 'fast_code_owners/version'
 require_relative 'fast_code_owners/file_path_finder'
+require_relative 'fast_code_owners/cli'
 
 begin
   RUBY_VERSION =~ /(\d+\.\d+)/
@@ -23,6 +24,21 @@ module FastCodeOwners
   extend T::Sig
   extend T::Helpers
   requires_ancestor { Kernel }
+
+  sig do
+    params(
+      autocorrect: T::Boolean,
+      stage_changes: T::Boolean,
+      files: T.nilable(T::Array[String])
+    ).void
+  end
+  def validate!(
+    autocorrect: true,
+    stage_changes: true,
+    files: nil
+  )
+    # todo
+  end
 
   sig { params(file_path: String).returns(T.nilable(CodeTeams::Team)) }
   def for_file(file_path)

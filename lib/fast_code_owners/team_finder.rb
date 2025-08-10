@@ -14,10 +14,11 @@ module FastCodeOwners
     sig { params(file_path: String).returns(T.nilable(CodeTeams::Team)) }
     def for_file(file_path)
       return nil if file_path.start_with?('./')
-      return FilePathTeamCache.get(file_path) if FilePathTeamCache.cached?(file_path)
 
+      # return FilePathTeamCache.get(file_path) if FilePathTeamCache.cached?(file_path)
       result = T.let(RustCodeOwners.for_file(file_path), T.nilable(T::Hash[Symbol, String]))
       return if result.nil?
+      puts "ruby result: #{result}"
 
       if result[:team_name].nil?
         FilePathTeamCache.set(file_path, nil)
