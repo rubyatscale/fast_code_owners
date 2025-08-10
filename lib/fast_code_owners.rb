@@ -30,14 +30,18 @@ module FastCodeOwners
       autocorrect: T::Boolean,
       stage_changes: T::Boolean,
       files: T.nilable(T::Array[String])
-    ).void
+    ).returns(T.nilable(T::Hash[Symbol, String]))
   end
   def validate!(
     autocorrect: true,
     stage_changes: true,
     files: nil
   )
-    # todo
+    if autocorrect
+      ::RustCodeOwners.generate_and_validate
+    else
+      ::RustCodeOwners.validate
+    end
   end
 
   sig { params(file_path: String).returns(T.nilable(CodeTeams::Team)) }

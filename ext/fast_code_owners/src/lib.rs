@@ -31,11 +31,19 @@ fn for_file(file_path: String) -> Result<Option<Value>, Error> {
     }
 }
 
-// Needed for tests
+fn validate() -> Result<Value, Error> {
+    let run_config = build_run_config();
+    let run_result = runner::validate(&run_config, vec![]);
+    validate_result(&run_result)
+}
+
 fn generate_and_validate() -> Result<Value, Error> {
     let run_config = build_run_config();
     let run_result = runner::generate_and_validate(&run_config, vec![]);
-    dbg!(&run_result);
+    validate_result(&run_result)
+}
+
+fn validate_result(run_result: &runner::RunResult) -> Result<Value, Error> {
     if !run_result.validation_errors.is_empty() {
         Err(Error::new(
             magnus::exception::runtime_error(),
@@ -51,7 +59,6 @@ fn generate_and_validate() -> Result<Value, Error> {
         Ok(serialized)
     }
 }
-
 fn build_run_config() -> RunConfig {
     let project_root = match env::current_dir() {
         Ok(path) => path,
@@ -73,6 +80,7 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
     let module = ruby.define_module("RustCodeOwners")?;
     module.define_singleton_method("for_file", function!(for_file, 1))?;
     module.define_singleton_method("generate_and_validate", function!(generate_and_validate, 0))?;
+    module.define_singleton_method("validate", function!(validate, 0))?;
 
     Ok(())
 }
