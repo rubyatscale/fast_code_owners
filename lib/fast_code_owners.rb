@@ -73,6 +73,12 @@ module FastCodeOwners
     TeamFinder.first_owned_file_for_backtrace(backtrace, excluded_teams: excluded_teams)
   end
 
+  sig { params(team: T.any(CodeTeams::Team, String)).returns(String) }
+  def for_team(team)
+    team = T.must(CodeTeams.find(team)) if team.is_a?(String)
+    ::RustCodeOwners.for_team(team.name)
+  end
+
   sig { void }
   def bust_cache!
     FilePathTeamCache.bust_cache!

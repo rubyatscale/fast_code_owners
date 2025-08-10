@@ -12,5 +12,8 @@ module RustCodeOwners
 
     def validate
     end
+
+    def for_team(team)
+    end
   end
 end

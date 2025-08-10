@@ -189,7 +189,6 @@ checksum = "b94f61472cee1439c0b966b47e3aca9ae07e45d070759512cd390ea2bebc6675"
 [[package]]
 name = "codeowners"
 version = "0.2.5"
-source = "git+https://github.com/rubyatscale/codeowners-rs.git?branch=ph.fast-file-check#1bf9386fb74db524d43011cc8d85360ecf43f0a3"
 dependencies = [
  "clap",
  "clap_derive",
@@ -298,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "fast_code_owners"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "codeowners",
  "magnus",

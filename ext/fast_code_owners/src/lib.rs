@@ -11,6 +11,12 @@ pub struct Team {
     pub team_config_yml: String,
 }
 
+fn for_team(team_name: String) -> Result<Value, Error> {
+    let run_config = build_run_config();
+    let team = runner::for_team(&run_config, &team_name);
+    validate_result(&team)
+}
+
 fn for_file(file_path: String) -> Result<Option<Value>, Error> {
     let run_config = build_run_config();
 
@@ -81,6 +87,7 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
     module.define_singleton_method("for_file", function!(for_file, 1))?;
     module.define_singleton_method("generate_and_validate", function!(generate_and_validate, 0))?;
     module.define_singleton_method("validate", function!(validate, 0))?;
+    module.define_singleton_method("for_team", function!(for_team, 1))?;
 
     Ok(())
 }
