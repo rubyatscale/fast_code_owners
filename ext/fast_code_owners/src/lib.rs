@@ -43,9 +43,9 @@ fn validate() -> Result<Value, Error> {
     validate_result(&run_result)
 }
 
-fn generate_and_validate() -> Result<Value, Error> {
+fn generate_and_validate(skip_stage: bool) -> Result<Value, Error> {
     let run_config = build_run_config();
-    let run_result = runner::generate_and_validate(&run_config, vec![]);
+    let run_result = runner::generate_and_validate(&run_config, vec![], skip_stage);
     validate_result(&run_result)
 }
 
@@ -85,7 +85,7 @@ fn build_run_config() -> RunConfig {
 fn init(ruby: &Ruby) -> Result<(), Error> {
     let module = ruby.define_module("RustCodeOwners")?;
     module.define_singleton_method("for_file", function!(for_file, 1))?;
-    module.define_singleton_method("generate_and_validate", function!(generate_and_validate, 0))?;
+    module.define_singleton_method("generate_and_validate", function!(generate_and_validate, 1))?;
     module.define_singleton_method("validate", function!(validate, 0))?;
     module.define_singleton_method("for_team", function!(for_team, 1))?;
 
