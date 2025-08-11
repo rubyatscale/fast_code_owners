@@ -189,7 +189,7 @@ checksum = "b94f61472cee1439c0b966b47e3aca9ae07e45d070759512cd390ea2bebc6675"
 [[package]]
 name = "codeowners"
 version = "0.2.5"
-source = "git+https://github.com/rubyatscale/codeowners-rs.git?branch=ph.fast-file-check#e036be557cf8a91bb9259bd0f06926ef22bc1441"
+source = "git+https://github.com/rubyatscale/codeowners-rs.git?branch=ph.blazing-fast-for-file#66c46e9b63c415814432205881e7032b53424009"
 dependencies = [
  "clap",
  "clap_derive",

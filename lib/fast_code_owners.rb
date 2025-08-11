@@ -38,7 +38,7 @@ module FastCodeOwners
     files: nil
   )
     if autocorrect
-      ::RustCodeOwners.generate_and_validate
+      ::RustCodeOwners.generate_and_validate(!stage_changes)
     else
       ::RustCodeOwners.validate
     end
