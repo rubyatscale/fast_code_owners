@@ -1,63 +1,67 @@
----
-  name: CI
-  
-  on:
-    push:
-      branches:
-        - main
-    pull_request:
-  
-  concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
-  
-  env:
-    RSPEC_FORMATTER: doc
-  
-  jobs:
-    ci-data:
-      runs-on: ubuntu-latest
-      outputs:
-        result: ${{ steps.fetch.outputs.result }}
-      steps:
-        - id: fetch
-          uses: oxidize-rb/actions/fetch-ci-data@v1
-          with:
-            stable-ruby-versions: |
-                # See https://github.com/bytecodealliance/wasmtime-rb/issues/286
-                # for details.
-                exclude: [head]
-  
-    ci:
-      runs-on: ${{ matrix.os }}
-      needs: ci-data
-      strategy:
-        fail-fast: false
-        matrix:
-          os: ["ubuntu-latest", "macos-latest"]
-          ruby: ${{ fromJSON(needs.ci-data.outputs.result).stable-ruby-versions }}
-          # include:
-            # mswin relies on head and we're not creating releases for it
-            # so disabling it as well.
-            # - os: windows-latest
-            #   ruby: mswin
-      steps:
-        - uses: actions/checkout@v4
-  
-        - name: Remove Gemfile.lock
-          run: rm Gemfile.lock
-  
-        - uses: oxidize-rb/actions/setup-ruby-and-rust@v1
-          with:
-            ruby-version: ${{ matrix.ruby }}
-            bundler-cache: true
-            cargo-cache: true
-            cache-version: v5
-  
-        - name: Compile rust ext
-          run: bundle exec rake compile:release
-  
-        - name: Run ruby tests
-          run: bundle exec rake spec
+name: CI
 
-  
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ci-data:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.fetch.outputs.result }}
+    steps:
+      - id: fetch
+        uses: oxidize-rb/actions/fetch-ci-data@v1
+        with:
+          stable-ruby-versions: |
+            # See https://github.com/bytecodealliance/wasmtime-rb/issues/286
+            # for details.
+            exclude: [head]
+  rspec:
+    runs-on: ${{ matrix.os }}
+    needs: ci-data
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
+        ruby: ${{ fromJSON(needs.ci-data.outputs.result).stable-ruby-versions }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oxidize-rb/actions/setup-ruby-and-rust@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          cargo-cache: true
+
+      - name: Run ruby tests
+        run: bundle exec rake
+      - name: Compile rust ext
+        run: bundle exec rake compile:release
+  static_type_check:
+    name: "Type Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 3.3
+      - name: Run static type checks
+        run: bundle exec srb tc
+  notify_on_failure:
+    runs-on: ubuntu-latest
+    needs: [rspec, static_type_check]
+    if: ${{ failure() && github.ref == 'refs/heads/main' }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+    steps:
+      - uses: slackapi/slack-github-action@v1.25.0
+        with:
+          payload: |
+            {
+              "text": "${{ github.repository }}/${{ github.ref }}: FAILED\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }

@@ -137,7 +137,7 @@ module FastCodeOwners
         raise 'Please pass in one team. Use `bin/codeowners for_team --help` for more info'
       end
 
-      puts FastCodeOwners.for_team(teams.first).join("\n")
+      puts FastCodeOwners.for_team(teams.first)
     end
 
     private_class_method :validate!

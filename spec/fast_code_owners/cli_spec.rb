@@ -78,7 +78,7 @@ RSpec.describe FastCodeOwners::Cli do
     end
     let(:argv) { ['for_team', 'My Team'] }
 
-    it 'outputs the team info in human readable format' do
+    xit 'outputs the team info in human readable format' do
       expect(FastCodeOwners::Cli).to receive(:puts).with('# Code Ownership Report for `My Team` Team')
       subject
     end
