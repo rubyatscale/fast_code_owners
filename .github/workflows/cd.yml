@@ -49,6 +49,11 @@
             with:
               ruby-version: "3.4"
     
+          # Add this step to pre-install cargo-cache
+          - name: Install cargo-cache
+            run: |
+              cargo install cargo-cache || echo "cargo-cache installation failed, continuing anyway"
+    
           - uses: oxidize-rb/actions/cross-gem@v1
             id: cross-gem
             with:
