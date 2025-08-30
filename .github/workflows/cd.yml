@@ -55,6 +55,8 @@
               platform: ${{ matrix.ruby-platform }}
               ruby-versions: ${{ join(fromJSON(needs.ci-data.outputs.result).stable-ruby-versions, ',') }}
               cache-save-always: false
+            env:
+              CARGO_BINSTALL_FALLBACK: true
     
           - uses: actions/upload-artifact@v4
             with:
