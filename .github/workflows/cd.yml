@@ -54,6 +54,7 @@
             with:
               platform: ${{ matrix.ruby-platform }}
               ruby-versions: ${{ join(fromJSON(needs.ci-data.outputs.result).stable-ruby-versions, ',') }}
+              cache-save-always: false
     
           - uses: actions/upload-artifact@v4
             with:
@@ -89,8 +90,7 @@
             with:
               ruby-version: "3.4"
               bundler-cache: true
-              cargo-cache: true
-              cache-version: v1
+              cargo-cache: false
     
           - uses: actions/download-artifact@v4
             with:
