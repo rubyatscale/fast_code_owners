@@ -48,20 +48,17 @@
           - uses: ruby/setup-ruby@v1
             with:
               ruby-version: "3.4"
-    
-          # Add this step to pre-install cargo-cache
-          - name: Install cargo-cache
-            run: |
-              cargo install cargo-cache || echo "cargo-cache installation failed, continuing anyway"
-    
+
           - uses: oxidize-rb/actions/cross-gem@v1
             id: cross-gem
             with:
               platform: ${{ matrix.ruby-platform }}
               ruby-versions: ${{ join(fromJSON(needs.ci-data.outputs.result).stable-ruby-versions, ',') }}
               cache-save-always: false
+              cargo-cache-clean: false  # Add this to disable cargo-cache usage
             env:
-              CARGO_BINSTALL_FALLBACK: true
+              # Add a unique identifier to prevent cache conflicts
+              ACTIONS_CACHE_KEY_SUFFIX: "-${{ matrix.ruby-platform }}-${{ github.run_id }}"
     
           - uses: actions/upload-artifact@v4
             with:
